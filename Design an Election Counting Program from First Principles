@@ -1,0 +1,120 @@
+
+#include <stdio.h>
+
+int main()
+{
+    int votes[5000];
+    int count[12] = {0};
+    int n, candidates;
+    int valid = 0, invalid = 0;
+    int i, j, temp;
+    int winner = 0, maxVotes = 0;
+    int tie = 0;
+
+    printf("Enter number of candidates: ");
+    scanf("%d", &candidates);
+
+    printf("Enter number of votes: ");
+    scanf("%d", &n);
+
+    if(candidates < 1 || candidates > 12 ||
+       n < 0 || n > 5000)
+    {
+        printf("Invalid input limits\n");
+        return 0;
+    }
+
+    printf("Enter votes (candidate numbers):\n");
+
+    for(i = 0; i < n; i++)
+    {
+        scanf("%d", &votes[i]);
+
+        if(votes[i] >= 1 && votes[i] <= candidates)
+        {
+            count[votes[i] - 1]++;
+            valid++;
+        }
+        else
+        {
+            invalid++;
+        }
+    }
+
+    // Find maximum votes
+    for(i = 0; i < candidates; i++)
+    {
+        if(count[i] > maxVotes)
+        {
+            maxVotes = count[i];
+            winner = i + 1;
+        }
+    }
+
+    // Check for tie
+    for(i = 0; i < candidates; i++)
+    {
+        if(count[i] == maxVotes)
+            tie++;
+    }
+
+    // Sort candidates by votes in descending order
+    int order[12];
+
+    for(i = 0; i < candidates; i++)
+        order[i] = i;
+
+    for(i = 0; i < candidates - 1; i++)
+    {
+        for(j = 0; j < candidates - i - 1; j++)
+        {
+            if(count[order[j]] < count[order[j + 1]])
+            {
+                temp = order[j];
+                order[j] = order[j + 1];
+                order[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("\nValid votes = %d\n", valid);
+    printf("Invalid votes = %d\n", invalid);
+
+    printf("\nCandidate vote counts (descending):\n");
+
+    for(i = 0; i < candidates; i++)
+    {
+        printf("Candidate %d = %d\n",
+               order[i] + 1, count[order[i]]);
+    }
+
+    if(tie > 1)
+        printf("\nElection result: TIE\n");
+    else if(valid == 0)
+        printf("\nNo valid votes. No winner.\n");
+    else
+        printf("\nWinner: Candidate %d\n", winner);
+
+    return 0;
+}
+
+Pseudocode
+1. Start.
+2. Read the number of candidates and total votes.
+3. Initialize all candidate vote counts to zero.
+4. Read each vote.
+5. Check whether the vote is valid:
+   - If vote is between 1 and number of candidates, increment that candidate's count and valid count.
+   - Otherwise, increment invalid count.
+6. Find the maximum vote count.
+7. Identify the winner and check whether multiple candidates have the maximum votes.
+8. Create an array containing candidate numbers.
+9. Sort the candidate array according to vote counts in descending order using Bubble Sort.
+10. Display valid and invalid vote counts.
+11. Display candidate vote counts in descending order.
+12. If no valid votes exist, display no winner.
+13. If multiple candidates have the maximum votes, display a tie.
+14. Otherwise, display the winner.
+15. Stop.
+
+//SCREENSHOT:sandbox:/mnt/data/student_council_election_output.png
