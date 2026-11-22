@@ -1,0 +1,88 @@
+
+#include <stdio.h>
+
+int main()
+{
+    float rain[38][12];
+    float total[38] = {0};
+    float grandTotal = 0;
+    float monthlyTotal[12] = {0};
+    float monthlyAverage;
+    float stateAverage;
+    float maxRain = -1;
+
+    int wetDistrict = 0, wetMonth = 0;
+    int i, j;
+
+    // Read rainfall data
+    printf("Enter rainfall for 38 districts and 12 months:\n");
+
+    for(i = 0; i < 38; i++)
+    {
+        for(j = 0; j < 12; j++)
+        {
+            scanf("%f", &rain[i][j]);
+
+            total[i] += rain[i][j];
+            monthlyTotal[j] += rain[i][j];
+            grandTotal += rain[i][j];
+
+            if(rain[i][j] > maxRain)
+            {
+                maxRain = rain[i][j];
+                wetDistrict = i;
+                wetMonth = j;
+            }
+        }
+    }
+
+    // Annual total per district
+    printf("\nAnnual rainfall totals:\n");
+
+    for(i = 0; i < 38; i++)
+    {
+        printf("District %d = %.2f mm\n",
+               i + 1, total[i]);
+    }
+
+    // State monthly average per district
+    monthlyAverage = grandTotal / (38 * 12);
+
+    printf("\nState monthly average rainfall = %.2f mm\n",
+           monthlyAverage);
+
+    // Wettest district and month
+    printf("\nWettest district = %d\n", wetDistrict + 1);
+    printf("Wettest month = %d\n", wetMonth + 1);
+    printf("Maximum rainfall = %.2f mm\n", maxRain);
+
+    // Average annual rainfall per district
+    stateAverage = grandTotal / 38;
+
+    printf("\nDistricts below 60%% of state average:\n");
+
+    for(i = 0; i < 38; i++)
+    {
+        if(total[i] < 0.60 * stateAverage)
+        {
+            printf("District %d\n", i + 1);
+        }
+    }
+
+    return 0;
+}
+Pseudocode
+1. Start.
+2. Declare a 2D array rain[38][12].
+3. Initialize annual totals and monthly totals to zero.
+4. Read rainfall values for all 38 districts and 12 months.
+5. Calculate annual rainfall total for each district.
+6. Calculate total rainfall for the state.
+7. Find the highest rainfall and its district and month.
+8. Calculate state monthly average rainfall.
+9. Calculate average annual rainfall per district.
+10. Find districts with annual rainfall below 60% of state average.
+11. Display all results.
+12. Stop.
+
+//SCREENSHOT:sandbox:/mnt/data/state_rainfall_output.png
