@@ -1,0 +1,150 @@
+//WITH USING string.h
+#include <stdio.h>
+
+int main()
+{
+    char msg[200], code[50], rev[200];
+    int i, j, words = 0, len = 0;
+    int palindrome = 1;
+
+    printf("Enter SMS message: ");
+    fgets(msg, sizeof(msg), stdin);
+
+    // Count words and find length
+    for(i = 0; msg[i] != '\0'; i++)
+    {
+        if(msg[i] == '\n')
+        {
+            msg[i] = '\0';
+            break;
+        }
+
+        if(msg[i] != ' ' &&
+           (i == 0 || msg[i-1] == ' '))
+        {
+            words++;
+        }
+
+        len++;
+    }
+
+    // Convert to uppercase
+    for(i = 0; msg[i] != '\0'; i++)
+    {
+        if(msg[i] >= 'a' && msg[i] <= 'z')
+            msg[i] = msg[i] - 32;
+    }
+
+    // Reverse message
+    for(i = 0; i < len; i++)
+        rev[i] = msg[len - 1 - i];
+
+    rev[len] = '\0';
+
+    printf("\nWord count = %d", words);
+    printf("\nUppercase message = %s", msg);
+    printf("\nReversed message = %s", rev);
+
+    // Check palindrome
+    printf("\nEnter short code: ");
+    scanf("%49s", code);
+
+    for(i = 0; code[i] != '\0'; i++)
+        len = i + 1;
+
+    for(i = 0, j = len - 1; i < j; i++, j--)
+    {
+        if(code[i] != code[j])
+        {
+            palindrome = 0;
+            break;
+        }
+    }
+
+    if(palindrome)
+        printf("\nShort code is a palindrome");
+    else
+        printf("\nShort code is not a palindrome");
+
+    return 0;
+
+}
+//WITHOUT USING string.h
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    char msg[200], code[50], rev[200];
+    int i, j, words = 0;
+    int palindrome = 1;
+
+    printf("Enter SMS message: ");
+    fgets(msg, sizeof(msg), stdin);
+
+    // Remove newline
+    msg[strcspn(msg, "\n")] = '\0';
+
+    // Count words
+    int len = strlen(msg);
+
+    for(i = 0; i < len; i++)
+    {
+        if(msg[i] != ' ' &&
+           (i == 0 || msg[i-1] == ' '))
+            words++;
+    }
+
+    // Convert to uppercase
+    for(i = 0; msg[i] != '\0'; i++)
+        msg[i] = toupper((unsigned char)msg[i]);
+
+    // Reverse message
+    for(i = 0; i < len; i++)
+        rev[i] = msg[len - 1 - i];
+
+    rev[len] = '\0';
+
+    printf("\nWord count = %d", words);
+    printf("\nUppercase message = %s", msg);
+    printf("\nReversed message = %s", rev);
+
+    // Check palindrome
+    printf("\nEnter short code: ");
+    scanf("%49s", code);
+
+    len = strlen(code);
+
+    for(i = 0, j = len - 1; i < j; i++, j--)
+    {
+        if(code[i] != code[j])
+        {
+            palindrome = 0;
+            break;
+        }
+    }
+
+    if(palindrome)
+        printf("\nShort code is a palindrome");
+    else
+        printf("\nShort code is not a palindrome");
+
+    return 0;
+}
+Pseudocode (common for both programs)
+1. Start.
+2. Read the SMS message.
+3. Initialize word count to zero.
+4. Count words by checking spaces and characters.
+5. Convert all lowercase letters into uppercase.
+6. Reverse the message and store it in another string.
+7. Display word count, uppercase message and reversed message.
+8. Read the short code.
+9. Compare characters from the beginning and end.
+10. If all characters match, display palindrome.
+11. Otherwise, display not a palindrome.
+12. Stop.
+
+//screenshot:sandbox:/mnt/data/sms_feedback_output.png
