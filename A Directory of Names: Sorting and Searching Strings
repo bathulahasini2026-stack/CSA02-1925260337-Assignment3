@@ -1,0 +1,101 @@
+
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char names[500][30], temp[30], key[30];
+    int n, i, j, found = 0;
+
+    printf("Enter number of residents: ");
+    scanf("%d", &n);
+
+    // Read resident names
+    printf("Enter resident names:\n");
+
+    for(i = 0; i < n; i++)
+    {
+        scanf(" %29[^\n]", names[i]);
+    }
+
+    // Sort names alphabetically using Bubble Sort
+    for(i = 0; i < n - 1; i++)
+    {
+        for(j = 0; j < n - i - 1; j++)
+        {
+            if(strcmp(names[j], names[j + 1]) > 0)
+            {
+                strcpy(temp, names[j]);
+                strcpy(names[j], names[j + 1]);
+                strcpy(names[j + 1], temp);
+            }
+        }
+    }
+
+    // Display sorted names
+    printf("\nNames in alphabetical order:\n");
+
+    for(i = 0; i < n; i++)
+    {
+        printf("%s\n", names[i]);
+    }
+
+    // Search resident
+    printf("\nEnter name to search: ");
+    scanf(" %29[^\n]", key);
+
+    for(i = 0; i < n; i++)
+    {
+        if(strcmp(names[i], key) == 0)
+        {
+            printf("Resident found at position %d\n", i + 1);
+            found = 1;
+            break;
+        }
+    }
+
+    if(!found)
+        printf("Resident not found\n");
+
+    // Find duplicate entries
+    printf("\nDuplicate names:\n");
+
+    found = 0;
+
+    for(i = 0; i < n - 1; i++)
+    {
+        if(strcmp(names[i], names[i + 1]) == 0)
+        {
+            printf("%s\n", names[i]);
+            found = 1;
+
+            // Skip repeated copies of the same name
+            while(i < n - 1 &&
+                  strcmp(names[i], names[i + 1]) == 0)
+            {
+                i++;
+            }
+        }
+    }
+
+    if(!found)
+        printf("No duplicate names found\n");
+
+    return 0;
+}
+Pseudocode
+1. Start.
+2. Read the number of residents n.
+3. Read all resident names into a 2D character array.
+4. Sort names alphabetically using Bubble Sort:
+   - Compare adjacent names using strcmp().
+   - If the first name comes after the second, swap them using strcpy().
+5. Display the sorted names.
+6. Read the name to search.
+7. Compare the search name with each resident name using strcmp().
+8. If matched, display the position; otherwise display "Resident not found".
+9. Check adjacent sorted names for duplicates.
+10. Display duplicate names.
+11. Stop.
+
+//SCREENSHOT:sandbox:/mnt/data/hostel_directory_output.png
